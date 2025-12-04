@@ -1,0 +1,28 @@
+.perks {
+  width: 15em;
+  height: 9em;
+  margin: 1em 2em;
+  text-align: center;
+  padding-top: 2.5em;
+  font-weight: 500;
+}
+
+.perk-icon {
+  font-size: 32px !important;
+}
+
+.perk1 {
+  background-color: rgb(191, 238, 254);
+}
+
+.perk2 {
+  background-color: rgb(255, 255, 131);
+}
+
+.perk3 {
+  background-color: rgb(155, 255, 155);
+}
+
+.perk4 {
+  background-color: rgb(255, 196, 204);
+}
