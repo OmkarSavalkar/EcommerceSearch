@@ -1,7 +1,7 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./dashboard.css";
 import Banner from "../components/banner/banner.tsx";
 import ProductList from "../components/productList/productList.tsx";
@@ -19,30 +19,35 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (searchValue === "") getList(1);
+    if (searchValue === "") {
+      getList(1);
+    }
   }, [searchValue]);
 
-  const getList = async (page: number) => {
-    window.scrollTo({ top: 500, behavior: "smooth" });
-    try {
-      const resp: any = await axios.get(
-        `https://api.searchspring.net/api/search/search.json?siteId=scmq7n&q=${searchValue}&resultsFormat=native&page=${page}`
-      );
-      resp.data.results.forEach((item: any) => {
-        item.isSale = false;
-        item.badges.forEach((subItem: any) => {
-          if (subItem["tag"] === "sale") {
-            item.isSale = true;
-          }
+  const getList = useCallback(
+    async (page: number) => {
+      window.scrollTo({ top: 500, behavior: "smooth" });
+      try {
+        const resp: any = await axios.get(
+          `https://api.searchspring.net/api/search/search.json?siteId=scmq7n&q=${searchValue}&resultsFormat=native&page=${page}`
+        );
+        resp.data.results.forEach((item: any) => {
+          item.isSale = false;
+          item.badges.forEach((subItem: any) => {
+            if (subItem["tag"] === "sale") {
+              item.isSale = true;
+            }
+          });
         });
-      });
-      setTotalPages(resp.data.pagination.totalPages);
-      setProductList(resp?.data?.results);
-      setPage(page);
-    } catch (err) {
-      alert(err);
-    }
-  };
+        setTotalPages(resp.data.pagination.totalPages);
+        setProductList(resp?.data?.results);
+        setPage(page);
+      } catch (err) {
+        alert(err);
+      }
+    },
+    [searchValue]
+  );
 
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") getList(1);
@@ -123,6 +128,7 @@ const Dashboard = () => {
         page={page}
         totalPages={totalPages}
         getList={getList}
+        setPage={setPage}
       />
     </div>
   );

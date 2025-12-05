@@ -3,11 +3,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import "./productList.css";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import Pagination from "../pagination/pagination";
+import React from "react";
 
 const ProductList = (props: any) => {
-  const { productList, page, totalPages, getList } = props;
+  const { productList, page, totalPages, getList, setPage } = props;
 
   const trimDescription = (des: string) => {
     return Array.from(des).splice(0, 100).join("") + "...";
@@ -17,8 +17,18 @@ const ProductList = (props: any) => {
     return Math.round(((item.msrp - item.price) / item.msrp) * 100);
   };
 
-  const handlePageChange = (event: any, value: number) => {
-    getList(value);
+  const nextHandler = () => {
+    let pageNum = page;
+    pageNum = pageNum + 1;
+    setPage(pageNum);
+    getList(pageNum);
+  };
+
+  const previousHandler = () => {
+    let pageNum = page;
+    pageNum = pageNum - 1;
+    setPage(pageNum);
+    getList(pageNum);
   };
 
   return (
@@ -29,15 +39,12 @@ const ProductList = (props: any) => {
       ) : (
         <div>
           <div className="pagination">
-            <Stack spacing={2}>
-              <Pagination
-                count={totalPages}
-                page={page}
-                onChange={handlePageChange}
-                variant="outlined"
-                shape="rounded"
-              />
-            </Stack>
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              previousHandler={previousHandler}
+              nextHandler={nextHandler}
+            />
           </div>
           <div className="d-flex flex-wrap justify-content-center align-items-center gap-3 ">
             {productList &&
@@ -98,19 +105,16 @@ const ProductList = (props: any) => {
               })}
           </div>
           <div className="pagination mb-3">
-            <Stack spacing={2}>
-              <Pagination
-                count={totalPages}
-                page={page}
-                onChange={handlePageChange}
-                variant="outlined"
-                shape="rounded"
-              />
-            </Stack>
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              previousHandler={previousHandler}
+              nextHandler={nextHandler}
+            />
           </div>
         </div>
       )}
     </div>
   );
 };
-export default ProductList;
+export default React.memo(ProductList);

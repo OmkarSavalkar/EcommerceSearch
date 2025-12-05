@@ -84,3 +84,20 @@
   margin-top: 2em;
   margin-bottom: 1em;
 }
+
+.page-buttons {
+  background: #759494;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.page-num {
+  font-weight: bold;
+  font-size: 18px;
+}
