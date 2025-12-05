@@ -8,7 +8,9 @@ A user-friendly product search interface built using the SearchSpring API. This 
 
 🖼️ Dashboard Preview
 
-Replace the link below with your actual image link (uploaded to GitHub issues or /public/screenshots/ folder)
+![Dashboard Screenshot1](public/dashboard1.png)
+![Dashboard Screenshot2](public/dashboard2.png)
+![Dashboard Screenshot3](public/dashboard3.png)
 
 ✨ Features
 

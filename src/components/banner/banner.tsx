@@ -3,12 +3,13 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import Replay10Icon from "@mui/icons-material/Replay10";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import "./banner.css";
+import banner from "../../assets/shopping-banner4.jpg";
 
 const Banner = () => {
   return (
     <div>
       <div>
-        <img src="src\assets\shopping-banner4.jpg" className="banner-img" />
+        <img src={banner} className="banner-img" />
         <div className="d-flex justify-content-center align-items-center gap-4">
           <div className="perks perk1">
             <div>
