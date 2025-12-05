@@ -1,16 +1,51 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./dashboard.css";
 import Banner from "../components/banner/banner.tsx";
 import ProductList from "../components/productList/productList.tsx";
+import SearchIcon from "@mui/icons-material/Search";
+import axios from "axios";
 
 const Dashboard = () => {
   const [searchValue, setSearchValue] = useState<string>("");
+  const [productList, setProductList] = useState<any>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const searchValueChanged = (e: any) => {
     setSearchValue(e.target.value);
+  };
+
+  useEffect(() => {
+    if (searchValue === "") getList(1);
+  }, [searchValue]);
+
+  const getList = async (page: number) => {
+    window.scrollTo({ top: 500, behavior: "smooth" });
+    try {
+      const resp: any = await axios.get(
+        `https://api.searchspring.net/api/search/search.json?siteId=scmq7n&q=${searchValue}&resultsFormat=native&page=${page}`
+      );
+      resp.data.results.forEach((item: any) => {
+        item.isSale = false;
+        item.badges.forEach((subItem: any) => {
+          if (subItem["tag"] === "sale") {
+            item.isSale = true;
+          }
+        });
+      });
+      setTotalPages(resp.data.pagination.totalPages);
+      setProductList(resp?.data?.results);
+      setPage(page);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Enter") getList(1);
   };
 
   return (
@@ -38,6 +73,28 @@ const Dashboard = () => {
                 }}
                 value={searchValue}
                 onChange={searchValueChanged}
+                onKeyDown={handleKeyDown}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <div
+                        onClick={() => getList(1)}
+                        style={{
+                          background: "#1976d2",
+                          padding: "6px 8px",
+                          borderRadius: "6px",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          marginRight: "-14px",
+                        }}
+                      >
+                        <SearchIcon style={{ color: "white" }} />
+                      </div>
+                    ),
+                  },
+                }}
               />
             </div>
             <a className="text-dark fw-semibold text-decoration-none" href="#">
@@ -61,7 +118,12 @@ const Dashboard = () => {
         </nav>
       </header>
       <Banner />
-      <ProductList searchValue={searchValue} />
+      <ProductList
+        productList={productList}
+        page={page}
+        totalPages={totalPages}
+        getList={getList}
+      />
     </div>
   );
 };
