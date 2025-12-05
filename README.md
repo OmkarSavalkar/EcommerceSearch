@@ -28,14 +28,11 @@ A user-friendly product search interface built using the SearchSpring API. This 
 
 🎯 Smooth scrolling on pagination
 
-📡 API Used
-
-This project uses the official SearchSpring Search API:
-
-https://api.searchspring.net/api/search/search.json
+This project uses the official SearchSpring Search API: https://api.searchspring.net/api/search/search.json
 
 🛠️ Tech Stack
 Technology Logo
+
 React + Vite <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="35"/>
 
 TypeScript <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="35"/>
@@ -54,6 +51,8 @@ npm install
 
 3️⃣ Start the development server
 npm run dev
+
+---
 
 🙌 Acknowledgements
 
