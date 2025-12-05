@@ -1,0 +1,86 @@
+.item-card {
+  margin: 1em 0.3em;
+  border-radius: 15px !important;
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.22);
+  }
+}
+
+.item-name {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+.item-description {
+  font-size: 14px !important;
+  margin-top: 5px !important;
+  text-align: left;
+}
+
+.item-price {
+  font-size: 18px !important;
+  font-weight: bold;
+  margin: 5px 6px;
+}
+
+.add-to-cart-btn {
+  background: #46cece; /* simple green */
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-cart-btn:hover {
+  background: #3fb8b8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.discount-badge {
+  background: #ffefef;
+  color: #d32f2f;
+  padding: 2px 6px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  display: inline-block;
+  letter-spacing: 0.5px;
+}
+
+.bestseller-badge {
+  background-color: rgb(255, 255, 52);
+  color: rgb(220, 85, 1);
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  position: absolute;
+}
+
+.onSale-badge {
+  background-color: rgb(78, 78, 255);
+  color: white;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  position: absolute;
+}
+
+.wishList {
+  margin-left: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}

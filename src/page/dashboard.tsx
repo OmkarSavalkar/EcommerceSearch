@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import "./dashboard.css";
 import Banner from "../components/banner/banner.tsx";
+import ProductList from "../components/productList/productList.tsx";
 
 const Dashboard = () => {
   const [searchValue, setSearchValue] = useState<string>("");
@@ -60,7 +61,7 @@ const Dashboard = () => {
         </nav>
       </header>
       <Banner />
-      <div>Items</div>
+      <ProductList searchValue={searchValue} />
     </div>
   );
 };
