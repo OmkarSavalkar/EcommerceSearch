@@ -37,14 +37,17 @@ https://api.searchspring.net/api/search/search.json
 🛠️ Tech Stack
 Technology Logo
 React + Vite <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="35"/>
+
 TypeScript <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="35"/>
+
 Material UI <img src="https://mui.com/static/logo.png" width="35"/>
+
 Axios <img src="https://avatars.githubusercontent.com/u/32372333?s=200&v=4" width="35"/>
+
 Bootstrap <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" width="35"/>
+
 🚀 How to Run This Project Locally
 1️⃣ Clone the repository
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
 
 2️⃣ Install dependencies
 npm install
