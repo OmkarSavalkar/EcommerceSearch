@@ -3,12 +3,25 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import "./productList.css";
-import React from "react";
+import React, { useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const ProductList = (props: any) => {
-  const { productList, page, totalPages, getList, setPage } = props;
+  const {
+    productList,
+    sortOptions,
+    page,
+    totalPages,
+    getList,
+    setPage,
+    sortUpdated,
+  } = props;
+  const [selectedSortValue, setSelectedSortValue] = useState<any>("");
 
   const trimDescription = (des: string) => {
     return Array.from(des).splice(0, 100).join("") + "...";
@@ -18,19 +31,63 @@ const ProductList = (props: any) => {
     return Math.round(((item.msrp - item.price) / item.msrp) * 100);
   };
 
-  const handlePageChange = (event: any, value: number) => {
+  const handlePageChange = (_event: any, value: number) => {
     setPage(value);
     getList(value);
+  };
+
+  const handleSortChanged = (e: any) => {
+    setSelectedSortValue(e.target.value);
+    let selectedOption: any = sortOptions.find(
+      (item: any) => item.label === e.target.value
+    );
+    sortUpdated(selectedOption);
   };
 
   return (
     <div className="text-center mt-3">
       <h3>Explore Our Awesome Products</h3>
-      {productList.length === 0 ? (
+      {productList && productList.length === 0 ? (
         <div className="my-3 fw-bold">No results found !</div>
       ) : (
         <div>
           <div className="pagination">
+            <FormControl sx={{ width: 250 }}>
+              <InputLabel
+                sx={{
+                  "&.MuiInputLabel-root": {
+                    top: "50%",
+                    left: 15,
+                    transform: "translateY(-50%)",
+                  },
+                  "&.MuiInputLabel-shrink": {
+                    top: 0,
+                    left: 15,
+                    transform: "translateY(-50%) scale(0.75)",
+                  },
+                }}
+              >
+                Sort By
+              </InputLabel>
+              <Select
+                value={selectedSortValue}
+                label="Sort By"
+                onChange={handleSortChanged}
+                sx={{
+                  "& .MuiSelect-select": {
+                    padding: "8px !important",
+                  },
+                }}
+              >
+                {" "}
+                {sortOptions &&
+                  sortOptions.map((option: any) => {
+                    return (
+                      <MenuItem value={option.label}>{option.label}</MenuItem>
+                    );
+                  })}
+              </Select>
+            </FormControl>
             <Stack spacing={2}>
               <Pagination
                 count={totalPages}

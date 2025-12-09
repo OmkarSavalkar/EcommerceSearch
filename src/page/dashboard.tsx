@@ -10,9 +10,14 @@ import axios from "axios";
 
 const Dashboard = () => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const [productList, setProductList] = useState<any>([]);
+  const [productData, setProductData] = useState<any>();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [sortOptions, setSortOptions] = useState<any>([]);
+  const [sortValue, setSortValue] = useState<any>({
+    field: "",
+    direction: "",
+  });
 
   const searchValueChanged = (e: any) => {
     setSearchValue(e.target.value);
@@ -24,14 +29,20 @@ const Dashboard = () => {
     }
   }, [searchValue]);
 
+  useEffect(() => {
+    if (sortValue.label) {
+      getList(1);
+    }
+  }, [sortValue]);
+
   const getList = useCallback(
     async (page: number) => {
       window.scrollTo({ top: 500, behavior: "smooth" });
       try {
         const resp: any = await axios.get(
-          `https://api.searchspring.net/api/search/search.json?siteId=scmq7n&q=${searchValue}&resultsFormat=native&page=${page}`
+          `https://api.searchspring.net/api/search/search.json?siteId=scmq7n&q=${searchValue}&sort.${sortValue.field}=${sortValue.direction}&resultsFormat=native&page=${page}`
         );
-        resp.data.results.forEach((item: any) => {
+        resp?.data?.results?.forEach((item: any) => {
           item.isSale = false;
           item.badges.forEach((subItem: any) => {
             if (subItem["tag"] === "sale") {
@@ -40,17 +51,22 @@ const Dashboard = () => {
           });
         });
         setTotalPages(resp.data.pagination.totalPages);
-        setProductList(resp?.data?.results);
+        setProductData(resp?.data?.results);
+        setSortOptions(resp?.data?.sorting?.options);
         setPage(page);
       } catch (err) {
         alert(err);
       }
     },
-    [searchValue]
+    [searchValue, sortValue]
   );
 
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") getList(1);
+  };
+
+  const sortUpdated = (selectedOption: any) => {
+    setSortValue(selectedOption);
   };
 
   return (
@@ -124,11 +140,13 @@ const Dashboard = () => {
       </header>
       <Banner />
       <ProductList
-        productList={productList}
+        productList={productData}
+        sortOptions={sortOptions}
         page={page}
         totalPages={totalPages}
         getList={getList}
         setPage={setPage}
+        sortUpdated={sortUpdated}
       />
     </div>
   );
