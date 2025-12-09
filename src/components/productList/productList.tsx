@@ -10,8 +10,23 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import type { SelectChangeEvent } from "@mui/material/Select";
+import type {
+  ISortOptions,
+  IProductData,
+} from "../../interfaces/productList.interface.ts";
 
-const ProductList = (props: any) => {
+interface IProps {
+  productList: IProductData[];
+  sortOptions: ISortOptions[];
+  page: number;
+  totalPages: number;
+  getList: (page: number) => void;
+  setPage: (page: number) => void;
+  sortUpdated: (selectedOption: ISortOptions) => void;
+}
+
+const ProductList = (props: IProps) => {
   const {
     productList,
     sortOptions,
@@ -21,26 +36,31 @@ const ProductList = (props: any) => {
     setPage,
     sortUpdated,
   } = props;
-  const [selectedSortValue, setSelectedSortValue] = useState<any>("");
+  const [selectedSortValue, setSelectedSortValue] = useState<string>("");
 
   const trimDescription = (des: string) => {
     return Array.from(des).splice(0, 100).join("") + "...";
   };
 
-  const discount = (item: any) => {
-    return Math.round(((item.msrp - item.price) / item.msrp) * 100);
+  const discount = (item: IProductData) => {
+    return Math.round(
+      ((Number(item.msrp) - Number(item.price)) / Number(item.msrp)) * 100
+    );
   };
 
-  const handlePageChange = (_event: any, value: number) => {
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     setPage(value);
     getList(value);
   };
 
-  const handleSortChanged = (e: any) => {
+  const handleSortChanged = (e: SelectChangeEvent) => {
     setSelectedSortValue(e.target.value);
-    let selectedOption: any = sortOptions.find(
-      (item: any) => item.label === e.target.value
-    );
+    let selectedOption: ISortOptions = sortOptions.find(
+      (item: ISortOptions) => item.label === e.target.value
+    )!;
     sortUpdated(selectedOption);
   };
 
@@ -81,7 +101,7 @@ const ProductList = (props: any) => {
               >
                 {" "}
                 {sortOptions &&
-                  sortOptions.map((option: any) => {
+                  sortOptions.map((option: ISortOptions) => {
                     return (
                       <MenuItem value={option.label}>{option.label}</MenuItem>
                     );
@@ -100,7 +120,7 @@ const ProductList = (props: any) => {
           </div>
           <div className="d-flex flex-wrap justify-content-center align-items-center gap-3 ">
             {productList &&
-              productList.map((item: any) => {
+              productList.map((item: IProductData) => {
                 return (
                   <Card
                     sx={{ width: 300, height: 500 }}

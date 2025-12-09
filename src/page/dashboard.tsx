@@ -7,19 +7,24 @@ import Banner from "../components/banner/banner.tsx";
 import ProductList from "../components/productList/productList.tsx";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
+import type {
+  IProductData,
+  ISortOptions,
+  IBadges,
+} from "../interfaces/productList.interface.ts";
 
 const Dashboard = () => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const [productData, setProductData] = useState<any>();
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [sortOptions, setSortOptions] = useState<any>([]);
-  const [sortValue, setSortValue] = useState<any>({
+  const [productData, setProductData] = useState<IProductData[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [sortOptions, setSortOptions] = useState<ISortOptions[]>([]);
+  const [sortValue, setSortValue] = useState<ISortOptions>({
     field: "",
     direction: "",
   });
 
-  const searchValueChanged = (e: any) => {
+  const searchValueChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
 
@@ -42,9 +47,9 @@ const Dashboard = () => {
         const resp: any = await axios.get(
           `https://api.searchspring.net/api/search/search.json?siteId=scmq7n&q=${searchValue}&sort.${sortValue.field}=${sortValue.direction}&resultsFormat=native&page=${page}`
         );
-        resp?.data?.results?.forEach((item: any) => {
+        resp?.data?.results?.forEach((item: IProductData) => {
           item.isSale = false;
-          item.badges.forEach((subItem: any) => {
+          item.badges.forEach((subItem: IBadges) => {
             if (subItem["tag"] === "sale") {
               item.isSale = true;
             }
@@ -61,11 +66,11 @@ const Dashboard = () => {
     [searchValue, sortValue]
   );
 
-  const handleKeyDown = (e: any) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") getList(1);
   };
 
-  const sortUpdated = (selectedOption: any) => {
+  const sortUpdated = (selectedOption: ISortOptions) => {
     setSortValue(selectedOption);
   };
 
